@@ -6,8 +6,12 @@ ubs_data <- read.csv("./ubs-pricesandearnings-opendata-06-10-2015.csv",sep=";", 
 food_data <- subset(ubs_data, TableTitle == "Food Prices" & !grepl("Index", Heading))
 
 freq <- data.frame(table(food_data$City))
-cities <- subset(freq, Freq == 13)$Var1
+cities <- as.character(subset(freq, Freq == 13)$Var1)
+
 food_final <- subset(food_data, City %in% cities)
+cities[3] <- "Bogot"
+cities[26] <- "Paulo"
+write.csv(cities,"ubs_food_data_cities.csv",row.names=FALSE)
 head(food_final)
 nrow(food_final)
 table(food_final$Year)
