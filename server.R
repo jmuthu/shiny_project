@@ -7,7 +7,7 @@ lmModel <- lm(Avg_Price~Year, data=mean_prices)
 shinyServer(function(input, output) {
         p <- reactive({round(predict(lmModel,new=data.frame(Year=c(as.integer(input$Year)))),2)})
   output$prediction <- renderPrint({
-          cat(paste("Predicted Average Food Price for year", input$Year,"is $", p()))
+          cat(paste("Forecasted Average Food Price for", input$Year,"year : $", p()))
                 })
   output$plot <- renderPlot({
   
@@ -17,13 +17,13 @@ shinyServer(function(input, output) {
           
           points(input$Year, p(), pch = 19, col="red")
           text(input$Year, p(), labels=c(p()),pos=4, col="red", cex=1.1)
-          legend("bottomright",c("Actual data", "Predicted Value", "Linear model"), col=c("black","red","blue"), 
+          legend("bottomright",c("Actual data", "Forecasted Value", "Linear model"), col=c("black","red","blue"), 
                  pch=c(20,19,NA), lty=c(NA,NA,1), bg = "gray90")
   })
   output$table <- renderTable({
           data.frame(Year = mean_prices$Year, "Average Food Prices ($)"= mean_prices$Avg_Price, check.names = F)
   })
   
-  output$cities <- renderTable({data.frame(City=cities$x)})
-
+  #output$cities <- renderTable({data.frame(City=cities$x)})
+  output$cities <- renderText({paste(cities$x, collapse=", ")})
 })

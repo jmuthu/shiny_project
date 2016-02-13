@@ -17,10 +17,11 @@ nrow(food_final)
 table(food_final$Year)
 plot(food_final$Year, food_final$Value)
 mean_prices <- aggregate(list(Avg_Price = as.numeric(food_final$Value)), by = list(Year = food_final$Year), FUN=mean)
-#mean_prices$date <- as.Date(mean_prices$Year,"%Y")
-#mean_prices$date <- NULL
 write.csv(mean_prices,"ubs_food_prices.csv",row.names=FALSE)
-#tstrain = ts(mean_prices$Avg_Price)
+
+#mean_prices <- rbind(mean_prices, c("2006", NA))
+#mean_prices <- mean_prices[with(mean_prices, order(Year)),]
+#tstrain <- na.approx(ts(mean_prices$Avg_Price, start=1976, deltat=3))
 #library(forecast)
-#fit = bats(tstrain)
-#fcast = forecast(fit,h=235)
+#fit = ets(tstrain)
+#fcast = forecast(fit,h=10)
