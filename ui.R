@@ -2,39 +2,38 @@
 library(shiny)
 
 shinyUI(fluidPage(
-       
-  
-  fluidRow(
-          titlePanel("Forecasting Food Basket Prices"),
-          p("It is a known fact that food prices steadily increase over time because of various reasons and this application forecasts \
-              the food basket prices averaged over world cities using a linear model trained on UBS prices and earnings dataset. \
-              More details can be found in 'Training Dataset' tab below"),
-          helpText(a("Click here for code hosted on github", target="_blank",    href="https://github.com/jmuthu/shiny_project")),
-          wellPanel(
-                 tabsetPanel(type = "tabs", 
-                             tabPanel("Forecasted Food Price", 
-                                      br(),
-                                      p ("Choose a year in the future below. Forecasted price is predicted and shown below along \
-                                          with the plot that also shows the actual data in the past years and the fitted linear model."),
-                                      
-                                      selectInput('Year', 'Input Year', c(2016:2050),width="100px"),
-                                      tags$b(textOutput("prediction")), 
-                                      br(), 
-                                      plotOutput("plot")), 
-                             tabPanel("Training Dataset", p("The training dataset is obtained from UBS Pricing and Earnings."), 
-                                      helpText(a("Click here for more details", target="_blank",    
-                                                 href="https://www.ubs.com/microsites/prices-earnings/open-data.html")),
-                                      p("The dataset has been downloaded from the above site, converted into a time series data by \
-                                         averaging the food prices for each year (table below) recorded since 1976 in intervals of \
-                                        3 years."),
-                                      p("Only the following 32 cities have data recorded from 1976, so only used those city's prices for \
-                                        the average computation."),
-                                      wellPanel(textOutput("cities")),
-                                      p("Fitted a simple linear model using year as the predictor and average price as the outcome"),
-                                      tableOutput("table")
-                                     # tableOutput("cities")
-                                     ))
+        titlePanel("Forecasting Food Basket Prices"),
+        p("It is a known fact that food prices steadily increase over time because of various reasons and this application forecasts \
+              the food basket prices over popular world cities using a linear model trained on UBS prices and earnings dataset. \
+              More details can be found in 'More Details' tab below"),
+        helpText(a("Click here for code hosted on github", target="_blank",    href="https://github.com/jmuthu/shiny_project")),
+        wellPanel(
+                tabsetPanel(type = "tabs", 
+                        tabPanel("Forecast Food Basket Price", 
+                                br(),
+                                p ("For forecasting, choose a future year and also a city (or all) below. Forecasted price is \
+                                   shown below along with a plot which shows the actual data in the past years and the fitted linear model."),
+                                fluidRow(
+                                      column(2, selectInput('Year', 'Select Year', c(2016:2050),width="100px")),
+                                      column(3, uiOutput("citySelect"))
+                                ),
+                                h3(textOutput("prediction")), 
+                                br(), 
+                                plotOutput("plot")), 
+                                tabPanel("More Details", 
+                                    p("This application uses linear models trained on actual data collected from various cities since 1976 by UBS. \
+                                    So the prediction on prices is a fair estimate as the model fits very well. UBS has published all the collected Pricing and Earnings data."), 
+                                    helpText(a("Click here for more details", target="_blank",    
+                                    href="https://www.ubs.com/microsites/prices-earnings/open-data.html")),
+                                    p("The dataset has been downloaded from the above site and converted into a time series data. \
+                                        The data contains various cost/prices but only food prices were used for this application. \ 
+                                       Only 32 cities have data recorded from 1976, so those city's prices were used for the model training."),
+                                    p("Food prices averaged over 32 cities for years recorded since 1976 (in intervals of \
+                                       3 years) is shown below."),
+                                   # wellPanel(textOutput("cities")),
+                                    tableOutput("table")
+                             ))
                  ))
           
 
-))
+)
