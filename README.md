@@ -1,4 +1,5 @@
-# shiny_project
+# Forecasting Food Prices using shiny application
+
 This project contains the code for shiny application that forecasts food prices for different world cities. 
 
 * data_cleanup.R - Contains code that does extraction and cleanup of food price data from UBS website
