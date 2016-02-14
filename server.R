@@ -44,7 +44,7 @@ shinyServer(function(input, output) {
           cat(paste("Forecasted Food Price : $", p()))
                 })
   output$citySelect <- renderUI({
-          selectInput('City', 'Select City', c('All',cities$x),  selected ="All")
+          selectInput('City', 'Select City', c('All',cities$x),  selected ="All",width="200px")
   })
   output$plot <- renderPlot({
           

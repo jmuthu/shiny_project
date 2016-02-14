@@ -7,19 +7,16 @@ shinyUI(fluidPage(
               the food basket prices over popular world cities using a linear model trained on UBS prices and earnings dataset. \
               More details can be found in 'More Details' tab below"),
         helpText(a("Click here for code hosted on github", target="_blank",    href="https://github.com/jmuthu/shiny_project")),
-        wellPanel(
-                tabsetPanel(type = "tabs", 
+        tabsetPanel(type = "tabs", 
                         tabPanel("Forecast Food Basket Price", 
                                 br(),
-                                p ("For forecasting, choose a future year and also a city (or all) below. Forecasted price is \
+                                p ("For forecasting, choose a future year and also a city (or all) below."),
+                                p ("Forecasted price is \
                                    shown below along with a plot which shows the actual data in the past years and the fitted linear model."),
-                                fluidRow(
-                                      column(2, selectInput('Year', 'Select Year', c(2016:2050),width="100px")),
-                                      column(3, uiOutput("citySelect"))
-                                ),
-                                h3(textOutput("prediction")), 
-                                br(), 
-                                plotOutput("plot")), 
+                                wellPanel(fluidRow(
+                                   column(4, selectInput('Year', 'Select Year', c(2016:2050),width="100px"), uiOutput("citySelect")),
+                                   column(5,h4(textOutput("prediction")),plotOutput("plot",width="600px",height="500px")) 
+                                ))), 
                                 tabPanel("More Details", 
                                     p("This application uses linear models trained on actual data collected from various cities since 1976 by UBS. \
                                     So the prediction on prices is a fair estimate as the model fits very well. UBS has published all the collected Pricing and Earnings data."), 
@@ -33,7 +30,7 @@ shinyUI(fluidPage(
                                    # wellPanel(textOutput("cities")),
                                     tableOutput("table")
                              ))
-                 ))
+))
           
 
-)
+
